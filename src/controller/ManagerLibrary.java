@@ -8,7 +8,6 @@ import storage.BookFile;
 import storage.LentBookFile;
 import storage.PaidBookFile;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -100,6 +99,13 @@ public class ManagerLibrary {
 
     }
 
+    public static void listLentBook(){
+        for (int i = 0; i < lentBooks.size(); i++) {
+            System.out.println("tên sách đã mượn: " + lentBooks.get(i).getName());
+            System.out.println("Số lượng: " + lentBooks.get(i).getAmount());
+        }
+    }
+
 
     public static void editBookByName() {
         Scanner scanner = new Scanner(System.in);
@@ -166,70 +172,74 @@ public class ManagerLibrary {
         }
     }
 
-
-
     public static void lendBooks() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("nhập tên cuốn sách cho mượn: ");
-        String lentBookName = scanner.nextLine();
-        int check = -1;
-        for (int i = 0; i < books.size(); i++) {
-            if (books.get(i).getName().equals(lentBookName)) {
-                check = i;
-                break;
-            }
-        }
-        if (check != -1){
-            System.out.println("nhập ngày cho mượn: ");
-            Scanner scanner1 = new Scanner(System.in);
-            int day = scanner1.nextInt();
+        System.out.println("nhập tên người mượn: ");
+        String borrowerName = scanner.nextLine();
 
-            System.out.println("nhập tháng: ");
-            Scanner scanner2 = new Scanner(System.in);
-            int month = scanner2.nextInt();
+        Scanner scanner1 = new Scanner(System.in);
+        System.out.println("nhập ngày: ");
+        int day = scanner1.nextInt();
 
-            System.out.println("nhập năm: ");
-            Scanner scanner3 = new Scanner(System.in);
-            int year = scanner3.nextInt();
+        Scanner scanner2 = new Scanner(System.in);
+        System.out.println("nhập tháng: ");
+        int month = scanner2.nextInt();
 
-            System.out.println("nhập tên người mượn: ");
-            Scanner scanner4 = new Scanner(System.in);
-            String borrowerName = scanner4.nextLine();
+        Scanner scanner3 = new Scanner(System.in);
+        System.out.println("nhập năm: ");
+        int year = scanner3.nextInt();
 
+        Scanner scanner4 = new Scanner(System.in);
+        System.out.println("nhập số tên sách muốn mượn: ");
+        int numberBook = scanner4.nextInt();
+
+        for (int i = 0; i < numberBook; i++) {
             Scanner scanner5 = new Scanner(System.in);
-            System.out.println("Nhập số lượng: ");
-            int amount = scanner5.nextInt();
+            System.out.println("nhập tên sách " + (i + 1) + ":");
+            String lentBookName = scanner5.nextLine();
+            int check = -1;
+            for (int k = 0; k < books.size(); k++) {
+                if (books.get(k).getName().equals(lentBookName)) {
+                    check = k;
+                    break;
+                }
+            }
+            if (check != -1){
+                Scanner scanner6 = new Scanner(System.in);
+                System.out.println("Nhập số lượng: ");
+                int amount = scanner6.nextInt();
 
-            LocalDate date = LocalDate.of(year, month, day);
-            LentBook lentBook = new LentBook(books.get(check).getId(), books.get(check).getName(), books.get(check).getAuthor(),
-                    books.get(check).getCategory(), amount, books.get(check).getPrice(), date, borrowerName);
-            lentBooks.add(lentBook);
-            int difference = 0;
-            if (amount < books.get(check).getAmount()) {
-                difference = books.get(check).getAmount() - amount;
-                books.get(check).setId(books.get(check).getId());
-                books.get(check).setName(books.get(check).getName());
-                books.get(check).setAuthor(books.get(check).getAuthor());
-                books.get(check).setCategory(books.get(check).getCategory());
-                books.get(check).setAmount(difference);
-                books.get(check).setPrice(books.get(check).getPrice());
-            } else if (amount == books.get(check).getAmount()){
-                books.remove(books.get(check));
+                LocalDate date = LocalDate.of(year, month, day);
+                LentBook lentBook = new LentBook(books.get(check).getId(), books.get(check).getName(), books.get(check).getAuthor(),
+                        books.get(check).getCategory(), amount, books.get(check).getPrice(), date, borrowerName);
+                lentBooks.add(lentBook);
+                int difference = 0;
+                if (amount < books.get(check).getAmount()) {
+                    difference = books.get(check).getAmount() - amount;
+                    books.get(check).setId(books.get(check).getId());
+                    books.get(check).setName(books.get(check).getName());
+                    books.get(check).setAuthor(books.get(check).getAuthor());
+                    books.get(check).setCategory(books.get(check).getCategory());
+                    books.get(check).setAmount(difference);
+                    books.get(check).setPrice(books.get(check).getPrice());
+                } else if (amount == books.get(check).getAmount()){
+                    books.remove(books.get(check));
+                } else {
+                    System.out.println("số sách trong thư viện không đủ cho yêu cầu này");
+                }
+                try {
+                    lentBookFile.writeFile(lentBooks);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    bookFile.writeFile(books);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else {
-                System.out.println("số sách trong thư viện không đủ cho yêu cầu này");
+                System.out.println("cuốn sách bạn tìm không có trong thư viện!");
             }
-            try {
-                lentBookFile.writeFile(lentBooks);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                bookFile.writeFile(books);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("cuốn sách bạn tìm không có trong thư viện");
         }
     }
 

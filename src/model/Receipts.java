@@ -6,11 +6,13 @@ import storage.LentBookFile;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import static controller.ManagerLibrary.lentBookFile;
+
 
 public class Receipts {
-    public LentBook lentBook = new LentBook();
+
     public double code;
-    public static ArrayList<LentBook> list = ManagerLibrary.lentBooks;
+    public static ArrayList<LentBook> lentBooks = lentBookFile.readFile();
 
     public double getCode() {
         double a = Math.random();
@@ -21,11 +23,10 @@ public class Receipts {
         this.code = code;
     }
 
-    public String toString(){
+    public  String toString(){
         return "Mã phiếu thu: " + getCode() + "\n" +
-                "ngay muon "  + lentBook.borrowedDate + "\n" +
-                "ten khach hang" + lentBook.borrowerName + "\n" +
-                "danh sach da muon" + "\n" +
-                list.get(0).toString();
+                "ngày mượn: "  + lentBooks.get(0).getBorrowedDate() + "\n" +
+                "tên khách hàng: " + lentBooks.get(0).getBorrowerName() + "\n" +
+                "danh sách mượn:\n";
     }
 }

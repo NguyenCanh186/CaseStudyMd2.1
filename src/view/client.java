@@ -1,12 +1,14 @@
 package view;
 
 import controller.ManagerLibrary;
+import model.Receipts;
 
 import java.util.Scanner;
 
 public class client {
 
     public static void main(String[] args) {
+        Receipts receipts = new Receipts();
         while (ManagerLibrary.login() == true) {
             int choose = -1;
             while (choose != 0) {
@@ -43,6 +45,9 @@ public class client {
                         break;
                     case 5:
                         ManagerLibrary.lendBooks();
+//                        Receipts receipts = new Receipts();
+                        System.out.println(receipts.toString());
+                        ManagerLibrary.listLentBook();
                         break;
                     case 6:
                         ManagerLibrary.giveBookBack();
@@ -53,10 +58,12 @@ public class client {
                         System.out.println("                                 |----------------------------------------------------------------|");
                         System.out.println("<---------------------------------------------------------------------------------------------------------------->");
                         boolean result = ManagerLibrary.lentBooks.isEmpty();
-                        if (result == true)
+                        if (result == true) {
                             System.out.println("danh sách rỗng!!!");
-                        else
-                            ManagerLibrary.showAllLentBook();
+                        }else {
+                            System.out.println(receipts.toString());
+                            ManagerLibrary.listLentBook();
+                        }
                         System.out.println("<---------------------------------------------------------------------------------------------------------------->");
                         break;
                     case 8:
