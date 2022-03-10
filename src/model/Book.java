@@ -1,19 +1,33 @@
-public class Book {
+package model;
+
+import java.io.Serializable;
+
+public class Book implements Serializable {
     public int id;
     public String name;
     public String author;
     public String category;
+    public int amount;
     public double price;
 
     public Book() {
     }
 
-    public Book(int id, String name, String author, String category, double price) {
+    public Book(int id, String name, String author, String category, int amount, double price) {
         this.id = id;
         this.name = name;
         this.author = author;
         this.category = category;
+        this.amount = amount;
         this.price = price;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     public int getId() {
@@ -58,12 +72,12 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", author='" + author + '\'' +
-                ", category='" + category + '\'' +
-                ", price=" + price +
-                '}';
+        return
+                "id: " + id +
+                ", tên: " + name +
+                ", tác giả: " + author +
+                ", thể loại: " + category +
+                        ", số lượng: " + amount +
+                ", giá: " + price ;
     }
 }
