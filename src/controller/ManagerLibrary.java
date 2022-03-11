@@ -1,12 +1,10 @@
 package controller;
 
-import model.Book;
-import model.LentBook;
-import model.LibraryManagerName;
-import model.PaidBooks;
+import model.*;
 import storage.BookFile;
 import storage.LentBookFile;
 import storage.PaidBookFile;
+import storage.ReceiptsFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -20,6 +18,8 @@ public class ManagerLibrary {
     public static ArrayList<Book> books = bookFile.readFile();
     public static ArrayList<LentBook> lentBooks = lentBookFile.readFile();
     public static ArrayList<PaidBooks> paidBooks = paidBookFile.readFile();
+    public static ReceiptsFile receiptsFile = new ReceiptsFile();
+    public static ArrayList<ReceiptsList> receiptsLists = receiptsFile.readFile();
     public static ArrayList<LibraryManagerName> libraryManagerNames = new ArrayList<>();
 
     public static boolean login() {
@@ -99,12 +99,15 @@ public class ManagerLibrary {
 
     }
 
-    public static void listLentBook(){
-        for (int i = 0; i < lentBooks.size(); i++) {
-            System.out.println("tên sách đã mượn: " + lentBooks.get(i).getName());
-            System.out.println("Số lượng: " + lentBooks.get(i).getAmount());
-        }
-    }
+//    public static void listLentBook(){
+//        Receipts receipts = new Receipts();
+//        for (int i = 0; i < lentBooks.size(); i++) {
+//            System.out.println(receipts.toString(i));
+//            System.out.println("tên sách đã mượn: " + lentBooks.get(i).getName());
+//            System.out.println("Số lượng: " + lentBooks.get(i).getAmount());
+//        }
+//    }
+
 
 
     public static void editBookByName() {
@@ -173,6 +176,7 @@ public class ManagerLibrary {
     }
 
     public static void lendBooks() {
+        Receipts receipts = new Receipts();
         Scanner scanner = new Scanner(System.in);
         System.out.println("nhập tên người mượn: ");
         String borrowerName = scanner.nextLine();
@@ -193,6 +197,9 @@ public class ManagerLibrary {
         System.out.println("nhập số tên sách muốn mượn: ");
         int numberBook = scanner4.nextInt();
 
+        int conditionCheck = -1;
+
+
         for (int i = 0; i < numberBook; i++) {
             Scanner scanner5 = new Scanner(System.in);
             System.out.println("nhập tên sách " + (i + 1) + ":");
@@ -201,18 +208,26 @@ public class ManagerLibrary {
             for (int k = 0; k < books.size(); k++) {
                 if (books.get(k).getName().equals(lentBookName)) {
                     check = k;
+                    conditionCheck = k;
                     break;
                 }
             }
             if (check != -1){
-                Scanner scanner6 = new Scanner(System.in);
+                Scanner scanner7 = new Scanner(System.in);
                 System.out.println("Nhập số lượng: ");
-                int amount = scanner6.nextInt();
+                int amount = scanner7.nextInt();
+                ReceiptsList receiptsList = new ReceiptsList(lentBookName, amount);
+                receiptsLists.add(receiptsList);
+                try {
+                    receiptsFile.writeFile(receiptsLists);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+//                System.out.println("ten sach: " + lentBookName);
+//                System.out.println("so luong: " + amount);
 
                 LocalDate date = LocalDate.of(year, month, day);
-                LentBook lentBook = new LentBook(books.get(check).getId(), books.get(check).getName(), books.get(check).getAuthor(),
-                        books.get(check).getCategory(), amount, books.get(check).getPrice(), date, borrowerName);
-                lentBooks.add(lentBook);
+
                 int difference = 0;
                 if (amount < books.get(check).getAmount()) {
                     difference = books.get(check).getAmount() - amount;
@@ -222,7 +237,14 @@ public class ManagerLibrary {
                     books.get(check).setCategory(books.get(check).getCategory());
                     books.get(check).setAmount(difference);
                     books.get(check).setPrice(books.get(check).getPrice());
+
+                    LentBook lentBook = new LentBook(books.get(check).getId(), books.get(check).getName(), books.get(check).getAuthor(),
+                            books.get(check).getCategory(), amount, books.get(check).getPrice(), date, borrowerName);
+                    lentBooks.add(lentBook);
                 } else if (amount == books.get(check).getAmount()){
+                    LentBook lentBook = new LentBook(books.get(check).getId(), books.get(check).getName(), books.get(check).getAuthor(),
+                            books.get(check).getCategory(), amount, books.get(check).getPrice(), date, borrowerName);
+                    lentBooks.add(lentBook);
                     books.remove(books.get(check));
                 } else {
                     System.out.println("số sách trong thư viện không đủ cho yêu cầu này");
@@ -239,6 +261,29 @@ public class ManagerLibrary {
                 }
             } else {
                 System.out.println("cuốn sách bạn tìm không có trong thư viện!");
+            }
+        }
+        if (conditionCheck != -1){
+        System.out.println(receipts.toString());
+        System.out.println("Ngày mượn: " + LocalDate.of(year, month, day));
+        System.out.println("Họ và tên: " + borrowerName);
+        System.out.println("Danh sách: ");
+            for (int i = 0; i < receiptsLists.size(); i++) {
+                System.out.println("tên sách " + (i + 1) +":");
+                System.out.println(receiptsLists.get(i).getNameBook());
+                System.out.println( "số lượng: ");
+                System.out.println(receiptsLists.get(i).getAmount());
+            }
+            try {
+                receiptsFile.writeFile(receiptsLists);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            receiptsLists.removeAll(receiptsLists);
+            try {
+                receiptsFile.writeFile(receiptsLists);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -333,6 +378,8 @@ public class ManagerLibrary {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else {
+            System.out.println("ten cuon sach ban tra khong hop le!!!!");
         }
     }
 
