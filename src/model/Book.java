@@ -78,6 +78,6 @@ public class Book implements Serializable {
                 ", tác giả: " + author +
                 ", thể loại: " + category +
                         ", số lượng: " + amount +
-                ", giá: " + price ;
+                ", giá: " + price + " USD" ;
     }
 }

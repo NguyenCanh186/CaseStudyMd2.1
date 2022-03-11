@@ -29,7 +29,7 @@ public class ManagerLibrary {
         libraryManagerNames.add(name2);
         Scanner scanner = new Scanner(System.in);
         System.out.println("|----------------------------------------------------------------------------------|");
-        System.out.println("|-----                                        LOGIN                                               -----|");
+        System.out.println("|-----                                LOGIN                                   -----|");
         System.out.println("|----------------------------------------------------------------------------------|");
         System.out.println("Nhập tên người quản lý: ");
         String name = scanner.nextLine();
@@ -66,27 +66,27 @@ public class ManagerLibrary {
     public static void addBook() {
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("nhập id: ");
+        System.out.println("Nhập id: ");
         int id = scanner.nextInt();
 
         Scanner scanner1 = new Scanner(System.in);
-        System.out.println("nhập tên sách: ");
+        System.out.println("Nhập tên sách: ");
         String name = scanner1.nextLine();
 
         Scanner scanner2 = new Scanner(System.in);
-        System.out.println("nhập tên tác giả: ");
+        System.out.println("Nhập tên tác giả: ");
         String author = scanner2.nextLine();
 
         Scanner scanner3 = new Scanner(System.in);
-        System.out.println("nhập thể loại sách: ");
+        System.out.println("Nhập thể loại sách: ");
         String category = scanner3.nextLine();
 
         Scanner scanner5 = new Scanner(System.in);
-        System.out.println("nhập số lượng: ");
+        System.out.println("Nhập số lượng: ");
         int amount = scanner5.nextInt();
 
         Scanner scanner4 = new Scanner(System.in);
-        System.out.println("nhập giá: ");
+        System.out.println("Nhập giá: ");
         double price = scanner4.nextDouble();
 
         Book book = new Book(id, name, author, category, amount, price);
@@ -112,43 +112,49 @@ public class ManagerLibrary {
 
     public static void editBookByName() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("nhập tên cuốn sách muốn chỉnh sửa: ");
+        System.out.println("Nhập tên cuốn sách muốn chỉnh sửa: ");
         String name = scanner.nextLine();
+        int check  = -1;
         for (int i = 0; i < books.size(); i++) {
             if (books.get(i).getName().equals(name)) {
-                Scanner scanner1 = new Scanner(System.in);
-                System.out.println("nhập id: ");
-                int id = scanner1.nextInt();
-
-                Scanner scanner2 = new Scanner(System.in);
-                System.out.println("nhập tên sách: ");
-                String name1 = scanner2.nextLine();
-
-                Scanner scanner3 = new Scanner(System.in);
-                System.out.println("nhập tên tác giả: ");
-                String author = scanner3.nextLine();
-
-                Scanner scanner4 = new Scanner(System.in);
-                System.out.println(" nhập thể loại sách: ");
-                String category = scanner4.nextLine();
-
-                Scanner scanner6 = new Scanner(System.in);
-                System.out.println("Nhập số lượng: ");
-                int amount = scanner6.nextInt();
-
-                Scanner scanner5 = new Scanner(System.in);
-                System.out.println("nhập giá: ");
-                double price = scanner5.nextDouble();
-
-                books.get(i).setId(id);
-                books.get(i).setName(name1);
-                books.get(i).setAuthor(author);
-                books.get(i).setCategory(category);
-                books.get(i).setAmount(amount);
-                books.get(i).setPrice(price);
-            } else {
-                System.out.println("cuốn sách này không có trong thư viện!!!");
+                check = i;
+                break;
             }
+        }
+
+        if (check != -1){
+            Scanner scanner1 = new Scanner(System.in);
+            System.out.println("Nhập id: ");
+            int id = scanner1.nextInt();
+
+            Scanner scanner2 = new Scanner(System.in);
+            System.out.println("Nhập tên sách: ");
+            String name1 = scanner2.nextLine();
+
+            Scanner scanner3 = new Scanner(System.in);
+            System.out.println("Nhập tên tác giả: ");
+            String author = scanner3.nextLine();
+
+            Scanner scanner4 = new Scanner(System.in);
+            System.out.println(" Nhập thể loại sách: ");
+            String category = scanner4.nextLine();
+
+            Scanner scanner6 = new Scanner(System.in);
+            System.out.println("Nhập số lượng: ");
+            int amount = scanner6.nextInt();
+
+            Scanner scanner5 = new Scanner(System.in);
+            System.out.println("Nhập giá: ");
+            double price = scanner5.nextDouble();
+
+            books.get(check).setId(id);
+            books.get(check).setName(name1);
+            books.get(check).setAuthor(author);
+            books.get(check).setCategory(category);
+            books.get(check).setAmount(amount);
+            books.get(check).setPrice(price);
+        } else {
+            System.out.println("Cuốn sách này không có trong thư viện!!!");
         }
         try {
             bookFile.writeFile(books);
@@ -159,7 +165,7 @@ public class ManagerLibrary {
 
     public static void deleteBookByName() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("nhập tên cuốn sách muốn xóa: ");
+        System.out.println("Nhập tên cuốn sách muốn xóa: ");
         String name = scanner.nextLine();
         for (int i = 0; i < books.size(); i++) {
             if (books.get(i).getName().equals(name)) {
@@ -170,7 +176,7 @@ public class ManagerLibrary {
                     e.printStackTrace();
                 }
             } else {
-                System.out.println("cuốn sách này không có trong thư viện!!!");
+                System.out.println("Cuốn sách này không có trong thư viện!!!");
             }
         }
     }
@@ -178,36 +184,39 @@ public class ManagerLibrary {
     public static void lendBooks() {
         Receipts receipts = new Receipts();
         Scanner scanner = new Scanner(System.in);
-        System.out.println("nhập tên người mượn: ");
+        System.out.println("Nhập tên người mượn: ");
         String borrowerName = scanner.nextLine();
 
         Scanner scanner1 = new Scanner(System.in);
-        System.out.println("nhập ngày: ");
+        System.out.println("Nhập ngày: ");
         int day = scanner1.nextInt();
 
         Scanner scanner2 = new Scanner(System.in);
-        System.out.println("nhập tháng: ");
+        System.out.println("Nhập tháng: ");
         int month = scanner2.nextInt();
 
         Scanner scanner3 = new Scanner(System.in);
-        System.out.println("nhập năm: ");
+        System.out.println("Nhập năm: ");
         int year = scanner3.nextInt();
 
         Scanner scanner4 = new Scanner(System.in);
-        System.out.println("nhập số tên sách muốn mượn: ");
+        System.out.println("Nhập số tên sách muốn mượn: ");
         int numberBook = scanner4.nextInt();
 
         int conditionCheck = -1;
+        double price = 0;
+        double sum = 0;
 
 
         for (int i = 0; i < numberBook; i++) {
             Scanner scanner5 = new Scanner(System.in);
-            System.out.println("nhập tên sách " + (i + 1) + ":");
+            System.out.println("Nhập tên sách " + (i + 1) + ":");
             String lentBookName = scanner5.nextLine();
             int check = -1;
             for (int k = 0; k < books.size(); k++) {
                 if (books.get(k).getName().equals(lentBookName)) {
                     check = k;
+                    price = books.get(k).getPrice();
                     conditionCheck = k;
                     break;
                 }
@@ -216,6 +225,7 @@ public class ManagerLibrary {
                 Scanner scanner7 = new Scanner(System.in);
                 System.out.println("Nhập số lượng: ");
                 int amount = scanner7.nextInt();
+                sum += price * amount;
                 ReceiptsList receiptsList = new ReceiptsList(lentBookName, amount);
                 receiptsLists.add(receiptsList);
                 try {
@@ -247,7 +257,7 @@ public class ManagerLibrary {
                     lentBooks.add(lentBook);
                     books.remove(books.get(check));
                 } else {
-                    System.out.println("số sách trong thư viện không đủ cho yêu cầu này");
+                    System.out.println("Số sách trong thư viện không đủ cho yêu cầu này");
                 }
                 try {
                     lentBookFile.writeFile(lentBooks);
@@ -260,7 +270,7 @@ public class ManagerLibrary {
                     e.printStackTrace();
                 }
             } else {
-                System.out.println("cuốn sách bạn tìm không có trong thư viện!");
+                System.out.println("Cuốn sách bạn tìm không có trong thư viện!");
             }
         }
         if (conditionCheck != -1){
@@ -269,11 +279,10 @@ public class ManagerLibrary {
         System.out.println("Họ và tên: " + borrowerName);
         System.out.println("Danh sách: ");
             for (int i = 0; i < receiptsLists.size(); i++) {
-                System.out.println("tên sách " + (i + 1) +":");
-                System.out.println(receiptsLists.get(i).getNameBook());
-                System.out.println( "số lượng: ");
-                System.out.println(receiptsLists.get(i).getAmount());
+                System.out.println("Tên sách " + (i + 1) +": " + receiptsLists.get(i).getNameBook());
+                System.out.println( "Số lượng: " + receiptsLists.get(i).getAmount());
             }
+            System.out.println("Tạm thu: " + sum + " USD");
             try {
                 receiptsFile.writeFile(receiptsLists);
             } catch (IOException e) {
@@ -290,7 +299,7 @@ public class ManagerLibrary {
 
     public static void giveBookBack() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("nhập tên cuốn sách khách trả cho thư viện: ");
+        System.out.println("Nhập tên cuốn sách khách trả cho thư viện: ");
         String name = scanner.nextLine();
         int check = -1;
         for (int i = 0; i < lentBooks.size(); i++) {
@@ -300,19 +309,19 @@ public class ManagerLibrary {
             }
         }
         if (check != -1){
-            System.out.println("nhập ngày trả: ");
+            System.out.println("Nhập ngày trả: ");
             Scanner scanner1 = new Scanner(System.in);
             int day = scanner1.nextInt();
 
-            System.out.println("nhập tháng: ");
+            System.out.println("Nhập tháng: ");
             Scanner scanner2 = new Scanner(System.in);
             int month = scanner2.nextInt();
 
-            System.out.println("nhập năm: ");
+            System.out.println("Nhập năm: ");
             Scanner scanner3 = new Scanner(System.in);
             int year = scanner3.nextInt();
 
-            System.out.println("nhập tên người trả sách: ");
+            System.out.println("Nhập tên người trả sách: ");
             Scanner scanner4 = new Scanner(System.in);
             String payerName = scanner4.nextLine();
 
@@ -325,7 +334,6 @@ public class ManagerLibrary {
                 PaidBooks paidBook = new PaidBooks(lentBooks.get(check).getId(), lentBooks.get(check).getName(),
                         lentBooks.get(check).getAuthor(), amount, lentBooks.get(check).getCategory(), lentBooks.get(check).getPrice(), date, payerName);
                 paidBooks.add(paidBook);
-                lentBooks.remove(lentBooks.get(check));
                 int index = -1;
                 for (int j = 0; j < books.size(); j++) {
                     if (books.get(j).getName().equals(name)) {
@@ -338,8 +346,8 @@ public class ManagerLibrary {
                 }  else {
                     Book book = new Book(lentBooks.get(check).getId(), lentBooks.get(check).getName(), lentBooks.get(check).getAuthor(),
                             lentBooks.get(check).getCategory(), amount, lentBooks.get(check).getPrice());
-                    lentBooks.remove(lentBooks.get(check));
                     books.add(book);
+                    lentBooks.remove(lentBooks.get(check));
                 }
             } else if (amount < lentBooks.get(check).getAmount()) {
                 PaidBooks paidBook = new PaidBooks(lentBooks.get(check).getId(), lentBooks.get(check).getName(),
@@ -379,13 +387,13 @@ public class ManagerLibrary {
                 e.printStackTrace();
             }
         } else {
-            System.out.println("ten cuon sach ban tra khong hop le!!!!");
+            System.out.println("Tên cuốn sách bạn trả không hợp lệ!!!!");
         }
     }
 
     public static void searchBookByName() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("nhập tên cuốn sách bạn muốn tìm: ");
+        System.out.println("Nhập tên cuốn sách bạn muốn tìm: ");
         String bookName = scanner.nextLine();
         for (int i = 0; i < books.size(); i++) {
             if (books.get(i).getName().equals(bookName)) {
@@ -395,19 +403,56 @@ public class ManagerLibrary {
                     if (lentBooks.get(i).getName().equals(bookName)) {
                         System.out.println("Cuốn sách này đã có người mượn. Vui lòng kiểm tra trong danh sách mượn");
                     } else {
-                        System.out.println("cuốn sách bạn tìm không có trong thư viện!!!");
+                        System.out.println("Cuốn sách bạn tìm không có trong thư viện!!!");
                     }
                 }
             }
         }
     }
 
-        public static void removeListPaidBook () {
-            paidBooks.removeAll(paidBooks);
-            try {
-                paidBookFile.writeFile(paidBooks);
-            } catch (IOException e) {
-                e.printStackTrace();
+    public static void searchBookByAuthor(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Nhập tên tác giả bạn muốn tìm: ");
+        String authorName = scanner.nextLine();
+
+        int check = -1;
+        for (int i = 0; i < books.size(); i++) {
+            if (books.get(i).getAuthor().equals(authorName)){
+                System.out.println(books.get(i).toString());
+                check = i;
             }
         }
+        if (check == -1){
+            System.out.println("Không tìm thấy tên tác giả này trong thư viện");
+        }
+    }
+
+    public static void searchBookByCategory(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Nhập tên thể loại bạn muốn tìm: ");
+        String categoryName = scanner.nextLine();
+
+        int check = -1;
+        for (int i = 0; i < books.size(); i++) {
+            if (books.get(i).getCategory().equals(categoryName)){
+                System.out.println(books.get(i).toString());
+                check = i;
+            }
+        }
+        if (check == -1){
+            System.out.println("Không tìm thấy tên thể loại này trong thư viện");
+        }
+    }
+
+    public static void removeListPaidBook () {
+        paidBooks.removeAll(paidBooks);
+        try {
+            paidBookFile.writeFile(paidBooks);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 }
