@@ -41,7 +41,7 @@ public class PaidBooks extends Book {
                 ", tác giả: " + author +
                 ", thể loại: " + category +
                 ", số lượng " + amount +
-                ", giá: " + price +
+                ", giá: " + price + "USD" +
                 ", ngày trả sách: " + payDay ;
     }
 }

@@ -16,7 +16,7 @@ public class Receipts {
 
     public double getCode() {
         double a = Math.random();
-        return a * 1000000000 + 1;
+        return a * 100000 + 1;
     }
 
     public void setCode(double code) {
